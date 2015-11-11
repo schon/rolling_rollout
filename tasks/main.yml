@@ -1,0 +1,25 @@
+---
+- debug: msg="command {{ rollout_script }} {{ rollout_branch }}"
+
+- name: run rollout script
+  command: "{{ rollout_script }} {{ rollout_branch }}"
+  sudo: yes
+  sudo_user: "{{ rollout_user }}"
+  when: rollout_script is defined
+  tags: rollout
+
+- name: Wait for server to pass health-checks
+  health_check:
+    url: "http://{{ item }}/healthcheck"
+    timeout: 5
+    max_retries: 5
+    expected_regexp: "OK"
+  with_items: upstream_servers
+  when: upstream_servers is defined 
+  tags: 
+    - rollout
+    - health_check
+
+- name: pausing
+  pause: seconds={{ rollout_pause }}
+  tags: rollout
