@@ -2,6 +2,9 @@
 # Copyright TrueAccord 2014
 #
 # Author: Nadav S. Samet <nadavsr@trueaccord.com>
+#
+# This module is from https://github.com/trueaccord/ansible-health-check
+#
 
 DOCUMENTATION = '''
 ---
